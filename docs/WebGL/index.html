@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Cloud Vizualizer Client</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <h2 id="webxr-info"></h2>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=960 height=600></canvas>
+    </div>
+    <script src="Build/WebGL.loader.js"></script>
+    <script src="TemplateData/main.js"></script>
+    <script src="TemplateData/webxr.js"></script>
+    <script>
+      webXr = new Webxr();
+      webXr.DetermineWebXRStatus().then(() => {
+        document.getElementById('webxr-info').innerHTML = webXr.toString();
+      })
+    </script>
+  </body>
+</html>
