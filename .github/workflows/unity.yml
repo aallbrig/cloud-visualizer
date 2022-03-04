@@ -106,8 +106,14 @@ jobs:
           name: Build-WebGL
           path: build/WebGL
 
+      - uses: canastro/copy-file-action@master
+        with:
+          source: build/WebGL/
+          target: static/WebGL/
+          flags: '-r'
+
       - uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: github-pages
-          folder: build/WebGL
+          folder: static
           target-folder: docs
