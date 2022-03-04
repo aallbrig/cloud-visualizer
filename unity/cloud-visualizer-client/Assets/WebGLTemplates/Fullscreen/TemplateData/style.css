@@ -1,0 +1,18 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden
+}
+#webxr-info {
+    width: 100%;
+    height: 6vh;
+}
+#unity-container {
+    width: 100%;
+    height: 94vh;
+}
+#unity-canvas {
+    width: 100%;
+    height: 100%;
+    background: {{{ BACKGROUND_COLOR }}}
+}
