@@ -1,13 +1,13 @@
 var canvas = document.querySelector("#unity-canvas");
 
 var config = {
-    dataUrl: "Build/WebGL.data.gz",
-    frameworkUrl: "Build/WebGL.framework.js.gz",
-    codeUrl: "Build/WebGL.wasm.gz",
+    dataUrl: "Build/WebGL.data",
+    frameworkUrl: "Build/WebGL.framework.js",
+    codeUrl: "Build/WebGL.wasm",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "Andrew Allbright",
     productName: "Cloud Vizualizer Client",
-    productVersion: "0.0.9",
+    productVersion: "0.0.10",
     devicePixelRatio: 1,
 }
 
