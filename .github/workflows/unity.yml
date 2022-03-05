@@ -106,11 +106,10 @@ jobs:
           name: Build-WebGL
           path: build/WebGL
 
-      - uses: canastro/copy-file-action@master
-        with:
-          source: build/WebGL
-          target: static/
-          flags: '-r'
+      - name: Copy unity WebGL build into static directory
+        shell: bash
+        run: |
+          mkdir -p static/WebGL && cp -R Build/WebGL/* static/WebGL
 
       - uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
