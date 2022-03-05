@@ -108,7 +108,7 @@ jobs:
 
       - uses: canastro/copy-file-action@master
         with:
-          source: build/WebGL/
+          source: build/WebGL
           target: static/
           flags: '-r'
 
