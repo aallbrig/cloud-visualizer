@@ -50,6 +50,11 @@ namespace Controllers
         private void OnSwipe(Swipe swipe)
         {
             Debug.Log("On Swipe");
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f))
+            {
+                var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
+                if (invisibleGroundPlane) _moveTarget = hit.point;
+            }
         }
         private void OnTouchStarted(InputAction.CallbackContext context) =>
         start = TouchInteraction.Of(_playerInputActions.Gameplay.Position.ReadValue<Vector2>());
@@ -67,14 +72,16 @@ namespace Controllers
             Gizmos.color = Color.green;
             if (start != null && Time.time - start.timing < 5f)
                 Gizmos.DrawWireSphere(start.position, 1.5f);
-            if (end != null && Time.time - end.timing < 5f)
+            if (end != null)
                 Gizmos.DrawWireSphere(end.position, 1.5f);
             if (swipe != null && end.timing < 5f)
                 Gizmos.DrawLine(start.position, end.position);
+            if (_moveTarget != Vector3.zero)
+                Gizmos.DrawWireSphere(_moveTarget, 1);
         }
         private void Update()
         {
-            if (_moveTarget != Vector3.zero && Vector3.Distance(transform.position, _moveTarget) > 0.2f)
+            if (ShouldMove)
             {
                 var offset = _moveTarget - transform.position;
                 if (offset.magnitude > .1f)
@@ -84,5 +91,7 @@ namespace Controllers
                 }
             }
         }
+
+        private bool ShouldMove => _moveTarget != Vector3.zero && Vector3.Distance(transform.position, _moveTarget) > 0.2f;
     }
 }
