@@ -110,7 +110,7 @@ jobs:
       - name: Copy unity WebGL build into static directory
         shell: bash
         run: |
-          mkdir -p static/WebGL && cp -R build/WebGL/* static/WebGL
+          cp -R build/WebGL/* static
 
       - uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
