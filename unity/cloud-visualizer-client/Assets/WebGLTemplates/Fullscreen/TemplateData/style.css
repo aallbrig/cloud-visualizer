@@ -3,9 +3,13 @@ html, body {
     margin: 0;
     overflow: hidden
 }
+#navigation {
+    width: 100%;
+    height: 5vh;
+}
 #unity-container {
     width: 100%;
-    height: 100vh;
+    height: 95vh;
 }
 #unity-canvas {
     width: 100%;
