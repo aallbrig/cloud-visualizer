@@ -16,8 +16,6 @@ namespace Controllers
         public static void TriggerSwipe(Swipe swipe) => SwipeOccurred?.Invoke(swipe);
         public static void TriggerTap(TouchInteraction end) => TapOccurred?.Invoke(end);
 
-        public CharacterController characterController;
-        public float moveDistance = 10f;
         public float moveSpeed = 5f;
         [Range(0f, 5f)] public float minimumSwipeDistance = 1f;
         [SerializeField] private TouchInteraction end;
@@ -40,7 +38,6 @@ namespace Controllers
         private void OnDisable() => _playerInputActions.Disable();
         private void OnTap(TouchInteraction touch)
         {
-            Debug.Log("On Tap");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f))
             {
                 var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
@@ -49,7 +46,6 @@ namespace Controllers
         }
         private void OnSwipe(Swipe swipe)
         {
-            Debug.Log("On Swipe");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f))
             {
                 var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
@@ -87,7 +83,7 @@ namespace Controllers
                 if (offset.magnitude > .1f)
                 {
                     var moveStep = offset.normalized * moveSpeed;
-                    characterController.Move(moveStep * Time.deltaTime);
+                    transform.position += moveStep * Time.deltaTime;
                 }
             }
         }

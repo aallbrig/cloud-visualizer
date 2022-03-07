@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1055178193586681499}
   - component: {fileID: 1055178193586681498}
-  - component: {fileID: 892723145}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -44,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ab303d38084f2783c5cbba33e3a577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 892723145}
+  moveSpeed: 2
   minimumSwipeDistance: 1
   end:
     position: {x: 0, y: 0}
@@ -57,21 +56,3 @@ MonoBehaviour:
     distance: 0
     vector: {x: 0, y: 0}
     vectorNormalized: {x: 0, y: 0}
---- !u!143 &892723145
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055178193586681492}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
