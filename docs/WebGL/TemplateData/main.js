@@ -7,7 +7,7 @@ var config = {
     streamingAssetsUrl: "StreamingAssets",
     companyName: "Andrew Allbright",
     productName: "Cloud Vizualizer Client",
-    productVersion: "0.0.36",
+    productVersion: "0.0.37",
     devicePixelRatio: 1,
 }
 
