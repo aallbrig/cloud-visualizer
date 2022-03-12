@@ -18,14 +18,14 @@ namespace Controllers
         [SerializeField] private Swipe swipe;
         private Vector3 _moveTarget;
         private Player _playerInputActions;
-        private int _layerMask;
+        private int _groundLayerMask;
 
         private bool ShouldMove => _moveTarget != Vector3.zero && Vector3.Distance(transform.position, _moveTarget) > 0.2f;
 
         private void Awake() => _playerInputActions = new Player();
         private void Start()
         {
-            _layerMask = 1 << movementLayer;
+            _groundLayerMask = 1 << movementLayer;
             _playerInputActions.Gameplay.Touch.started += OnTouchStarted;
             _playerInputActions.Gameplay.Touch.canceled += OnTouchEnd;
             SwipeOccurred += OnSwipe;
@@ -64,22 +64,8 @@ namespace Controllers
 
         public static void TriggerSwipe(Swipe swipe) => SwipeOccurred?.Invoke(swipe);
         public static void TriggerTap(TouchInteraction end) => TapOccurred?.Invoke(end);
-        private void OnTap(TouchInteraction touch)
-        {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f, _layerMask))
-            {
-                var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
-                if (invisibleGroundPlane) _moveTarget = hit.point;
-            }
-        }
-        private void OnSwipe(Swipe swipe)
-        {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f))
-            {
-                var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
-                if (invisibleGroundPlane) _moveTarget = hit.point;
-            }
-        }
+        private void OnTap(TouchInteraction touch) => MoveIfGroundPlane();
+        private void OnSwipe(Swipe swipe) => MoveIfGroundPlane();
         private void OnTouchStarted(InputAction.CallbackContext context) =>
             start = TouchInteraction.Of(_playerInputActions.Gameplay.Position.ReadValue<Vector2>());
 
@@ -90,6 +76,15 @@ namespace Controllers
 
             if (swipe.distance > minimumSwipeDistance) TriggerSwipe(swipe);
             else TriggerTap(end);
+        }
+        private void MoveIfGroundPlane()
+        {
+            // Did the user touch the ground?
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f, _groundLayerMask))
+            {
+                var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
+                if (invisibleGroundPlane) _moveTarget = hit.point;
+            }
         }
     }
 }
