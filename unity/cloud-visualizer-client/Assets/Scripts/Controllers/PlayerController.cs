@@ -12,17 +12,20 @@ namespace Controllers
 
         public float moveSpeed = 5f;
         [Range(0f, 5f)] public float minimumSwipeDistance = 1f;
+        public int movementLayer = 8;
         [SerializeField] private TouchInteraction end;
         [SerializeField] private TouchInteraction start;
         [SerializeField] private Swipe swipe;
         private Vector3 _moveTarget;
         private Player _playerInputActions;
+        private int _layerMask;
 
         private bool ShouldMove => _moveTarget != Vector3.zero && Vector3.Distance(transform.position, _moveTarget) > 0.2f;
 
         private void Awake() => _playerInputActions = new Player();
         private void Start()
         {
+            _layerMask = 1 << movementLayer;
             _playerInputActions.Gameplay.Touch.started += OnTouchStarted;
             _playerInputActions.Gameplay.Touch.canceled += OnTouchEnd;
             SwipeOccurred += OnSwipe;
@@ -63,7 +66,7 @@ namespace Controllers
         public static void TriggerTap(TouchInteraction end) => TapOccurred?.Invoke(end);
         private void OnTap(TouchInteraction touch)
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(end.position), out var hit, 100f, _layerMask))
             {
                 var invisibleGroundPlane = hit.transform.GetComponent<InvisibleGroundPlane>();
                 if (invisibleGroundPlane) _moveTarget = hit.point;
