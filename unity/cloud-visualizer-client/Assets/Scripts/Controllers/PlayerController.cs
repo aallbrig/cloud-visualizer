@@ -10,6 +10,7 @@ namespace Controllers
     public class PlayerController : MonoBehaviour
     {
 
+        public AnimationCurve movementCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
         public float moveSpeed = 5f;
         [Range(0f, 5f)] public float minimumSwipeDistance = 1f;
         public int movementLayer = 8;
@@ -19,6 +20,7 @@ namespace Controllers
         private Vector3 _moveTarget;
         private Player _playerInputActions;
         private int _groundLayerMask;
+        private float _timeSinceInput = 0;
 
         private bool ShouldMove => _moveTarget != Vector3.zero && Vector3.Distance(transform.position, _moveTarget) > 0.2f;
 
@@ -33,12 +35,15 @@ namespace Controllers
         }
         private void Update()
         {
+            _timeSinceInput += Time.deltaTime;
+
             if (ShouldMove)
             {
                 var offset = _moveTarget - transform.position;
                 if (offset.magnitude > .1f)
                 {
-                    var moveStep = offset.normalized * moveSpeed;
+                    var speed = movementCurve.Evaluate(_timeSinceInput) * moveSpeed;
+                    var moveStep = offset.normalized * speed;
                     transform.position += moveStep * Time.deltaTime;
                 }
             }
@@ -73,6 +78,7 @@ namespace Controllers
         {
             end = TouchInteraction.Of(_playerInputActions.Gameplay.Position.ReadValue<Vector2>());
             swipe = Swipe.Of(start, end);
+            _timeSinceInput = 0;
 
             if (swipe.distance > minimumSwipeDistance) TriggerSwipe(swipe);
             else TriggerTap(end);
